@@ -1,0 +1,26 @@
+{
+  "name": "admin-dispatch-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/admin-dispatch-client/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/admin-dispatch-client",
+        "main": "libs/admin-dispatch-client/src/index.ts",
+        "tsConfig": "libs/admin-dispatch-client/tsconfig.lib.json",
+        "assets": ["libs/admin-dispatch-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/admin-dispatch-client/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

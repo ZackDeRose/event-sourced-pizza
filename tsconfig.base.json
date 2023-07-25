@@ -15,7 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@event-sourced-pizza/events": ["libs/events/src/index.ts"]
+      "@event-sourced-pizza/admin-dispatch-client": [
+        "libs/admin-dispatch-client/src/index.ts"
+      ],
+      "@event-sourced-pizza/events": ["libs/events/src/index.ts"],
+      "@event-sourced-pizza/supabase-dispatcher": [
+        "libs/supabase-dispatcher/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

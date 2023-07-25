@@ -1,33 +1,31 @@
 {
-  "name": "events",
+  "name": "supabase-dispatcher",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/events/src",
+  "sourceRoot": "libs/supabase-dispatcher/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/events",
-        "main": "libs/events/src/index.ts",
-        "tsConfig": "libs/events/tsconfig.lib.json",
-        "assets": [],
-        "project": "libs/events/package.json",
-        "compiler": "babel"
+        "outputPath": "dist/libs/supabase-dispatcher",
+        "main": "libs/supabase-dispatcher/src/index.ts",
+        "tsConfig": "libs/supabase-dispatcher/tsconfig.lib.json",
+        "assets": ["libs/supabase-dispatcher/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/events/**/*.ts"]
+        "lintFilePatterns": ["libs/supabase-dispatcher/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/events/jest.config.ts",
+        "jestConfig": "libs/supabase-dispatcher/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

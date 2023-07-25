@@ -1,0 +1,5 @@
+{
+  "name": "@event-sourced-pizza/supabase-dispatcher",
+  "version": "0.0.1",
+  "type": "commonjs"
+}
