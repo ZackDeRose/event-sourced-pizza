@@ -1,11 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { dispatch } from '@event-sourced-pizza/admin-dispatch-client';
-import styles from './app.module.css';
-
-import NxWelcome from './nx-welcome';
 import {
   adminAddsDoughInventoryEvent,
+  adminAddsToppingInventoryEvent,
   adminAdjustsDoughPriceEvent,
+  adminAdjustsToppingPriceEvent,
+  adminCreatesToppingEvent,
   Event,
 } from '@event-sourced-pizza/events';
 import { createAdminDataClient } from '@event-sourced-pizza/admin-data-client';
@@ -14,19 +14,152 @@ import {
   AppState,
   selectDoughPrice,
   selectRemainingDoughInventory,
+  selectRemainingToppingInventory,
+  selectToppingPrice,
 } from '@event-sourced-pizza/app-state';
 
 export function App() {
+  const [toppingIds, setToppingIds] = useState<string[]>([]);
+  useEffect(() => {
+    const sub = getState().subscribe((state) => {
+      setToppingIds(Object.keys(state.toppings));
+    });
+    return () => sub.unsubscribe();
+  }, []);
   return (
     <div>
-      <DoughInventory />
-      <DoughPrice />
-      <hr />
+      <div className="p-2 border-4 border-red-400 rounded-sm m-4">
+        <h2 className="text-center text-3xl">Admin Controls</h2>
+        <DoughInventory />
+        <DoughPrice />
+        <hr />
+        {toppingIds.map((toppingId) => (
+          <>
+            <ToppingInventory toppingId={toppingId} />
+            <ToppingPrice toppingId={toppingId} />
+            <hr />
+          </>
+        ))}
+        <CreateNewTopping />
+      </div>
       <Ledger />
     </div>
   );
 }
 const { getEvents, getState, getStates } = createAdminDataClient();
+
+function ToppingInventory({ toppingId }: { toppingId: string }) {
+  const [serverTotal, setServerTotal] = useState<number>(0);
+  const [serverRemaining, setServerRemaining] = useState<number>(0);
+  const [toppingName, setToppingName] = useState<string>('');
+  const [formValue, setFormValue] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>();
+  useEffect(() => {
+    const sub = getState().subscribe((state) => {
+      setServerTotal(state.toppings[toppingId].inventory);
+      setServerRemaining(selectRemainingToppingInventory(state)[toppingId]);
+      setToppingName(state.toppings[toppingId].name);
+    });
+    return () => sub.unsubscribe();
+  }, [inputRef]);
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        dispatch(
+          adminAddsToppingInventoryEvent({
+            count: +(event.target as any)[`add${toppingName}`].value,
+            toppingId,
+          })
+        );
+        inputRef.current!.value = 0 as any;
+      }}
+    >
+      <label htmlFor="serverTotal">Total {toppingName} Inventory: </label>
+      <span id="serverTotal">{serverTotal}</span>
+      <br />
+      <label htmlFor="serverRemaining">Remaining {toppingName}: </label>
+      <span id="serverRemaining">{serverRemaining}</span>
+      <br />
+      <label htmlFor={`add${toppingName}`}>Add {toppingName}: </label>
+      <input
+        type="number"
+        id={`add${toppingName}`}
+        ref={inputRef}
+        onChange={(event) => {
+          setFormValue(+event.target.value);
+        }}
+      />
+      <button type="submit">Add {toppingName}</button>
+    </form>
+  );
+}
+
+function ToppingPrice({ toppingId }: { toppingId: string }) {
+  const [serverToppingPrice, setServerToppingPrice] = useState<number | null>();
+  const [formToppingPrice, setFormToppingPrice] = useState<number | null>();
+  const inputRef = useRef<HTMLInputElement>();
+  const [toppingName, setToppingName] = useState<string>('');
+  useEffect(() => {
+    const sub = getState().subscribe((state) => {
+      const tempToppingPrice = selectToppingPrice(toppingId)(state);
+      setToppingName(state.toppings[toppingId].name);
+      if (tempToppingPrice === serverToppingPrice) return;
+      setServerToppingPrice(tempToppingPrice);
+      inputRef.current!.value = tempToppingPrice as any;
+    });
+    return () => sub.unsubscribe();
+  }, [inputRef, serverToppingPrice, toppingId]);
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const toppingPrice = +(event.target as any)[`${toppingName}Price`]
+          .value;
+        dispatch(
+          adminAdjustsToppingPriceEvent({ newPrice: toppingPrice, toppingId })
+        );
+      }}
+    >
+      <label htmlFor="toppingPrice">{toppingName} Price</label>
+      <input
+        type="number"
+        id={`${toppingName}Price`}
+        ref={inputRef}
+        onChange={(event) => {
+          setFormToppingPrice(+event.target.value);
+        }}
+      />
+
+      <button type="submit" disabled={formToppingPrice === serverToppingPrice}>
+        Submit
+      </button>
+    </form>
+  );
+}
+
+function CreateNewTopping() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        dispatch(
+          adminCreatesToppingEvent({
+            count: 0,
+            toppingId: window.crypto.randomUUID(),
+            toppingName: (event.target as any).newTopping.value,
+            toppingPrice: 0,
+          })
+        );
+        (event.target as any).newTopping.value = '';
+      }}
+    >
+      <label htmlFor="newToping">New Topping Name: </label>
+      <input type="text" id="newTopping" />
+      <button type="submit">Add Topping</button>
+    </form>
+  );
+}
 
 function DoughInventory() {
   const [serverTotal, setServerTotal] = useState<number>(0);
@@ -43,6 +176,7 @@ function DoughInventory() {
   return (
     <form
       onSubmit={(event) => {
+        event.preventDefault();
         dispatch(
           adminAddsDoughInventoryEvent({
             count: +(event.target as any).addDough.value,

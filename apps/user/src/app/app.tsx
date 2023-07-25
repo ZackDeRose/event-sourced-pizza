@@ -4,6 +4,8 @@ import {
   createUserDataClient,
   initialClientState,
   selectPizzaPrice,
+  selectRemainingToppings,
+  selectToppings,
   selectTotalPrice,
 } from '@event-sourced-pizza/user-data-client';
 import styles from './app.module.css';
@@ -14,7 +16,10 @@ import { dispatch } from '@event-sourced-pizza/user-dispatch-client';
 import {
   newUserConnectedEvent,
   userAddsPizzaEvent,
+  userAddsToppingEvent,
   userDisconnectedEvent,
+  userRemovesPizzaEvent,
+  userRemovesToppingEvent,
 } from '@event-sourced-pizza/events';
 import { initialAppState } from '@event-sourced-pizza/app-state';
 import { Observable } from 'rxjs';
@@ -58,7 +63,42 @@ export function Pizza({ pizzaId }: { pizzaId: string }) {
     <div>
       <h3>Pizza {pizzaId}</h3>
       <h4>Toppings</h4>
+      {Object.entries(selectToppings(state)).map(
+        ([toppingId, { name, id, price }]) => (
+          <>
+            <label htmlFor={`${pizzaId}-${toppingId}-checkbox`}>{name}</label>
+            <input
+              id={`${pizzaId}-${toppingId}-checkbox`}
+              type="checkbox"
+              onChange={(event) => {
+                event.preventDefault();
+              }}
+              onClick={(event) => {
+                event.preventDefault();
+                dispatch(
+                  state.pizzas[pizzaId][toppingId]
+                    ? userRemovesToppingEvent({ userId, pizzaId, toppingId })
+                    : userAddsToppingEvent({ userId, pizzaId, toppingId })
+                );
+              }}
+              value={!!state.pizzas[pizzaId][toppingId] as any}
+              checked={!!state.pizzas[pizzaId][toppingId]}
+              disabled={
+                !state.pizzas[pizzaId][toppingId] &&
+                selectRemainingToppings(state)[toppingId] === 0
+              }
+            />
+          </>
+        )
+      )}
       <h4>Single Price: ${selectPizzaPrice(pizzaId)(state)}</h4>
+      <button
+        onClick={() => {
+          dispatch(userRemovesPizzaEvent({ userId, pizzaId }));
+        }}
+      >
+        Remove Pizza
+      </button>
     </div>
   );
 }

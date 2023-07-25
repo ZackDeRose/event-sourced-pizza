@@ -88,7 +88,9 @@ export const appReducer = (
     };
   } else if (isUserRemovesToppingEvent(event)) {
     const { userId, pizzaId, toppingId } = event;
-    const { [toppingId]: _, ...rest } = state.users[userId][pizzaId];
+    // console.log(state);
+    const user = state.users[userId];
+    const { [toppingId]: _, ...rest } = user ? user[pizzaId] || {} : {};
     return {
       ...state,
       users: {
@@ -120,7 +122,7 @@ export const appReducer = (
         ...state.toppings,
         [toppingId]: {
           ...state.toppings[toppingId],
-          inventory: state.toppings[toppingId].inventory + count,
+          inventory: (state.toppings[toppingId]?.inventory || 0) + count,
         },
       },
     };
@@ -204,4 +206,9 @@ export const selectUserToppingData = (state: AppState) => {
     };
   }
   return clientToppingData;
+};
+
+export const selectToppingPrice = (toppingId: string) => (state: AppState) => {
+  const allToppingData = selectUserToppingData(state);
+  return allToppingData[toppingId].price;
 };

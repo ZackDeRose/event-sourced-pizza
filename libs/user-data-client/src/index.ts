@@ -78,3 +78,11 @@ export const createUserDataClient = (userId: string) => {
     },
   };
 };
+
+export const selectToppings = (state: ClientState) => {
+  return state.toppingData;
+};
+
+export const selectRemainingToppings = (state: ClientState) => {
+  return state.remainingToppings;
+};
