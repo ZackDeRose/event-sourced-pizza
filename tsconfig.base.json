@@ -23,6 +23,12 @@
       ],
       "@event-sourced-pizza/app-state": ["libs/app-state/src/index.ts"],
       "@event-sourced-pizza/events": ["libs/events/src/index.ts"],
+      "@event-sourced-pizza/redis-dispatcher": [
+        "libs/redis-dispatcher/src/index.ts"
+      ],
+      "@event-sourced-pizza/redis-event-stream": [
+        "libs/redis-event-stream/src/index.ts"
+      ],
       "@event-sourced-pizza/supabase-dispatcher": [
         "libs/supabase-dispatcher/src/index.ts"
       ],

@@ -1,0 +1,26 @@
+{
+  "name": "redis-dispatcher",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redis-dispatcher/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/redis-dispatcher",
+        "main": "libs/redis-dispatcher/src/index.ts",
+        "tsConfig": "libs/redis-dispatcher/tsconfig.lib.json",
+        "assets": ["libs/redis-dispatcher/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/redis-dispatcher/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

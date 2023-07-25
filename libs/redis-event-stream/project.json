@@ -1,0 +1,26 @@
+{
+  "name": "redis-event-stream",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redis-event-stream/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/redis-event-stream",
+        "main": "libs/redis-event-stream/src/index.ts",
+        "tsConfig": "libs/redis-event-stream/tsconfig.lib.json",
+        "assets": ["libs/redis-event-stream/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/redis-event-stream/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -88,7 +88,6 @@ export const appReducer = (
     };
   } else if (isUserRemovesToppingEvent(event)) {
     const { userId, pizzaId, toppingId } = event;
-    // console.log(state);
     const user = state.users[userId];
     const { [toppingId]: _, ...rest } = user ? user[pizzaId] || {} : {};
     return {

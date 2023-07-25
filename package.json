@@ -2,7 +2,9 @@
   "name": "@event-sourced-pizza/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nx run-many --target=build || nx run-many --target=serve --parallel=8"
+  },
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.29.0",
@@ -12,6 +14,7 @@
     "express": "^4.18.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "redis": "^4.6.7",
     "rxjs": "^7.8.1",
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1",

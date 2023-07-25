@@ -7,7 +7,8 @@ import {
   selectUserPizzas,
   selectUserToppingData,
 } from '@event-sourced-pizza/app-state';
-import { eventStream$ } from '@event-sourced-pizza/supabase-event-stream';
+// import { eventStream$ } from '@event-sourced-pizza/supabase-event-stream';
+import { eventStream$ } from '@event-sourced-pizza/redis-event-stream';
 import cors from 'cors';
 import express from 'express';
 import { createServer } from 'http';
