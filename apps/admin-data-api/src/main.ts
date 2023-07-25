@@ -1,5 +1,5 @@
-// import { eventStream$ } from '@event-sourced-pizza/supabase-event-stream';
-import { eventStream$ } from '@event-sourced-pizza/redis-event-stream';
+import { eventStream$ } from '@event-sourced-pizza/supabase-event-stream';
+// import { eventStream$ } from '@event-sourced-pizza/redis-event-stream';
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';

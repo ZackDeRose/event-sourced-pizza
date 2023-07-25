@@ -1,5 +1,5 @@
-// import { dispatch } from '@event-sourced-pizza/supabase-dispatcher';
-import { dispatch } from '@event-sourced-pizza/redis-dispatcher';
+import { dispatch } from '@event-sourced-pizza/supabase-dispatcher';
+// import { dispatch } from '@event-sourced-pizza/redis-dispatcher';
 const express = require('express');
 const cors = require('cors');
 
@@ -13,8 +13,10 @@ app.use(cors());
 
 app.post('/dispatch', (req, res) => {
   const event = req.body;
-  dispatch(event);
-  res.send('ok');
+  dispatch(event).then((x) => {
+    console.log(x);
+    res.send('ok');
+  });
 });
 
 app.listen(port, host, () => {

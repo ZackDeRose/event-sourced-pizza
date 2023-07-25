@@ -271,16 +271,10 @@ function Ledger() {
       </div>
       {indexes.map((index) => (
         <div key={index} className="grid grid-cols-2">
-          <pre
-            p-2
-            className="border-4 border-gray-600 bg-gray-800 text-white font-mono rounded-sm m-4 p-4"
-          >
+          <pre className="border-4 border-gray-600 bg-gray-800 text-white font-mono rounded-sm m-4 p-4">
             {JSON.stringify(events[index], null, 2)}
           </pre>
-          <pre
-            p-2
-            className="border-4 border-gray-600 bg-gray-800 text-white font-mono rounded-sm m-4 p-4"
-          >
+          <pre className="border-4 border-gray-600 bg-gray-800 text-white font-mono rounded-sm m-4 p-4">
             {JSON.stringify(states[index], null, 2)}
           </pre>
         </div>
