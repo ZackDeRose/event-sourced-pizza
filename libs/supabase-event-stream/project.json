@@ -1,0 +1,26 @@
+{
+  "name": "supabase-event-stream",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/supabase-event-stream/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/supabase-event-stream",
+        "main": "libs/supabase-event-stream/src/index.ts",
+        "tsConfig": "libs/supabase-event-stream/tsconfig.lib.json",
+        "assets": ["libs/supabase-event-stream/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/supabase-event-stream/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

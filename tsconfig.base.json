@@ -15,12 +15,19 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@event-sourced-pizza/admin-data-client": [
+        "libs/admin-data-client/src/index.ts"
+      ],
       "@event-sourced-pizza/admin-dispatch-client": [
         "libs/admin-dispatch-client/src/index.ts"
       ],
+      "@event-sourced-pizza/app-state": ["libs/app-state/src/index.ts"],
       "@event-sourced-pizza/events": ["libs/events/src/index.ts"],
       "@event-sourced-pizza/supabase-dispatcher": [
         "libs/supabase-dispatcher/src/index.ts"
+      ],
+      "@event-sourced-pizza/supabase-event-stream": [
+        "libs/supabase-event-stream/src/index.ts"
       ]
     }
   },

@@ -1,0 +1,26 @@
+{
+  "name": "admin-data-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/admin-data-client/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/admin-data-client",
+        "main": "libs/admin-data-client/src/index.ts",
+        "tsConfig": "libs/admin-data-client/tsconfig.lib.json",
+        "assets": ["libs/admin-data-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/admin-data-client/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

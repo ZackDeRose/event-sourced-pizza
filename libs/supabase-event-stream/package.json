@@ -1,0 +1,5 @@
+{
+  "name": "@event-sourced-pizza/supabase-event-stream",
+  "version": "0.0.1",
+  "type": "commonjs"
+}

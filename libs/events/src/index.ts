@@ -5,6 +5,9 @@ export const newUserConnectedEvent = (userId: string) => ({
   userId,
 });
 export type NewUserConnectedEvent = ReturnType<typeof newUserConnectedEvent>;
+export const isNewUserConnectedEvent = (
+  event: Event
+): event is NewUserConnectedEvent => event.type === newUserConnectedEventType;
 
 // user adds a pizza
 export const userAddsPizzaEventType = '[User] pizza added' as const;
@@ -20,6 +23,9 @@ export const userAddsPizzaEvent = ({
   pizzaId,
 });
 export type UserAddsPizzaEvent = ReturnType<typeof userAddsPizzaEvent>;
+export const isUserAddsPizzaEvent = (
+  event: Event
+): event is UserAddsPizzaEvent => event.type === userAddsPizzaEventType;
 
 // user removes a pizza
 export const userRemovesPizzaEventType = '[User] pizza removed' as const;
@@ -35,6 +41,9 @@ export const userRemovesPizzaEvent = ({
   pizzaId,
 });
 export type UserRemovesPizzaEvent = ReturnType<typeof userRemovesPizzaEvent>;
+export const isUserRemovesPizzaEvent = (
+  event: Event
+): event is UserRemovesPizzaEvent => event.type === userRemovesPizzaEventType;
 
 // user adds a topping
 export const userAddsToppingEventType =
@@ -54,6 +63,9 @@ export const userAddsToppingEvent = ({
   toppingId,
 });
 export type UserAddsToppingEvent = ReturnType<typeof userAddsToppingEvent>;
+export const isUserAddsToppingEvent = (
+  event: Event
+): event is UserAddsToppingEvent => event.type === userAddsToppingEventType;
 
 // user removes a topping
 export const userRemovesToppingEventType =
@@ -75,6 +87,10 @@ export const userRemovesToppingEvent = ({
 export type UserRemovesToppingEvent = ReturnType<
   typeof userRemovesToppingEvent
 >;
+export const isUserRemovesToppingEvent = (
+  event: Event
+): event is UserRemovesToppingEvent =>
+  event.type === userRemovesToppingEventType;
 
 // admin creates a topping
 export const adminCreatesToppingEventType = '[Admin] topping created' as const;
@@ -82,19 +98,26 @@ export const adminCreatesToppingEvent = ({
   toppingId,
   toppingName,
   toppingPrice,
+  count,
 }: {
   toppingId: string;
   toppingName: string;
   toppingPrice: number;
+  count: number;
 }) => ({
-  type: adminCreatesToppingEvent,
+  type: adminCreatesToppingEventType,
   toppingId,
   toppingName,
   toppingPrice,
+  count,
 });
 export type AdminCreatesToppingEvent = ReturnType<
   typeof adminCreatesToppingEvent
 >;
+export const isAdminCreatesToppingEvent = (
+  event: Event
+): event is AdminCreatesToppingEvent =>
+  event.type === adminCreatesToppingEventType;
 
 // admin adds topping inventory
 export const adminAddsToppingInventoryEventType =
@@ -113,6 +136,10 @@ export const adminAddsToppingInventoryEvent = ({
 export type AdminAddsToppingInventoryEvent = ReturnType<
   typeof adminAddsToppingInventoryEvent
 >;
+export const isAdminAddsToppingInventoryEvent = (
+  event: Event
+): event is AdminAddsToppingInventoryEvent =>
+  event.type === adminAddsToppingInventoryEventType;
 
 // admin adds dough to inventory
 export const adminAddsDoughInventoryEventType =
@@ -124,6 +151,10 @@ export const adminAddsDoughInventoryEvent = ({ count }: { count: number }) => ({
 export type AdminAddsDoughInventoryEvent = ReturnType<
   typeof adminAddsDoughInventoryEvent
 >;
+export const isAdminAddsDoughInventoryEvent = (
+  event: Event
+): event is AdminAddsDoughInventoryEvent =>
+  event.type === adminAddsDoughInventoryEventType;
 
 // admin adjusts topping price
 export const adminAdjustsToppingPriceEventType =
@@ -142,6 +173,10 @@ export const adminAdjustsToppingPriceEvent = ({
 export type AdminAdjustsToppingPriceEvent = ReturnType<
   typeof adminAdjustsToppingPriceEvent
 >;
+export const isAdminAdjustsToppingPriceEvent = (
+  event: Event
+): event is AdminAdjustsToppingPriceEvent =>
+  event.type === adminAdjustsToppingPriceEventType;
 
 // admin adjusts dough price
 export const adminAdjustsDoughPriceEventType =
@@ -157,6 +192,10 @@ export const adminAdjustsDoughPriceEvent = ({
 export type AdminAdjustsDoughPriceEvent = ReturnType<
   typeof adminAdjustsDoughPriceEvent
 >;
+export const isAdminAdjustsDoughPriceEvent = (
+  event: Event
+): event is AdminAdjustsDoughPriceEvent =>
+  event.type === adminAdjustsDoughPriceEventType;
 
 // export user events
 export type UserEvent =
