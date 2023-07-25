@@ -1,17 +1,3 @@
-import express from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import cors from 'cors';
-import { eventStream$ } from '@event-sourced-pizza/supabase-event-stream';
-import {
-  debounce,
-  debounceTime,
-  map,
-  scan,
-  shareReplay,
-  startWith,
-  tap,
-} from 'rxjs';
 import {
   appReducer,
   initialAppState,
@@ -21,6 +7,12 @@ import {
   selectUserPizzas,
   selectUserToppingData,
 } from '@event-sourced-pizza/app-state';
+import { eventStream$ } from '@event-sourced-pizza/supabase-event-stream';
+import cors from 'cors';
+import express from 'express';
+import { createServer } from 'http';
+import { map, scan, shareReplay, startWith } from 'rxjs';
+import { Server } from 'socket.io';
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3002;
@@ -45,7 +37,6 @@ const state$ = events$.pipe(
 );
 
 socketServer.on('connection', (socket) => {
-  console.log('user connected');
   socket.on('user id', (userId) => {
     const userState$ = state$.pipe(
       map((state) => {

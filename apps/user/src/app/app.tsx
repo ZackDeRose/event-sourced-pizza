@@ -3,6 +3,8 @@ import {
   ClientState,
   createUserDataClient,
   initialClientState,
+  selectPizzaPrice,
+  selectTotalPrice,
 } from '@event-sourced-pizza/user-data-client';
 import styles from './app.module.css';
 
@@ -28,14 +30,35 @@ dispatch(newUserConnectedEvent(userId)).then(() => {
 });
 
 export function App() {
+  const [state, setState] = useState<ClientState>(initialClientState);
   useEffect(() => {
     getState().subscribe((state) => {
-      console.log(state);
+      setState(state);
     });
   }, []);
   return (
     <div>
+      <TotalPrice />
+      {(state.pizzas ? Object.keys(state.pizzas) : []).map((pizzaId) => (
+        <Pizza pizzaId={pizzaId} />
+      ))}
       <NewPizzaButton />
+    </div>
+  );
+}
+
+export function Pizza({ pizzaId }: { pizzaId: string }) {
+  const [state, setState] = useState<ClientState>(initialClientState);
+  useEffect(() => {
+    getState().subscribe((state) => {
+      setState(state);
+    });
+  }, []);
+  return (
+    <div>
+      <h3>Pizza {pizzaId}</h3>
+      <h4>Toppings</h4>
+      <h4>Single Price: ${selectPizzaPrice(pizzaId)(state)}</h4>
     </div>
   );
 }
@@ -58,6 +81,16 @@ export function NewPizzaButton() {
       New Pizza
     </button>
   );
+}
+
+export function TotalPrice() {
+  const [state, setState] = useState<ClientState>(initialClientState);
+  useEffect(() => {
+    getState().subscribe((state) => {
+      setState(state);
+    });
+  }, []);
+  return <h2>Total Price: ${selectTotalPrice(state)}</h2>;
 }
 
 export default App;

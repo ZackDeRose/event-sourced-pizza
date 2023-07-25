@@ -1,6 +1,4 @@
 export * from './lib/user-data-client';
-import { AppState, initialAppState } from '@event-sourced-pizza/app-state';
-import { Event } from '@event-sourced-pizza/events';
 import { BehaviorSubject } from 'rxjs';
 import { io } from 'socket.io-client';
 
@@ -30,6 +28,35 @@ export const initialClientState: ClientState = {
   toppingData: {},
   doughPrice: 0,
   remainingDough: 0,
+};
+
+export const selectPizzaPrice = (pizzaId: string) => (state: ClientState) => {
+  if (!state.pizzas) {
+    return 0;
+  }
+  const pizza = state.pizzas[pizzaId];
+  if (!pizza) {
+    return 0;
+  }
+  let price = state.doughPrice;
+  for (const [toppingId, isPresent] of Object.entries(pizza)) {
+    if (isPresent) {
+      const toppingPrice = state.toppingData[toppingId].price;
+      price += toppingPrice;
+    }
+  }
+  console.log('price', price);
+  return price;
+};
+
+export const selectTotalPrice = (state: ClientState) => {
+  if (!state.pizzas) {
+    return 0;
+  }
+  const pizzaIds = Object.keys(state.pizzas);
+  return pizzaIds
+    .map((id) => selectPizzaPrice(id)(state))
+    .reduce((a, b) => a + b, 0);
 };
 
 const socket = io('http://localhost:3002');
