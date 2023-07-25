@@ -28,6 +28,12 @@
       ],
       "@event-sourced-pizza/supabase-event-stream": [
         "libs/supabase-event-stream/src/index.ts"
+      ],
+      "@event-sourced-pizza/user-data-client": [
+        "libs/user-data-client/src/index.ts"
+      ],
+      "@event-sourced-pizza/user-dispatch-client": [
+        "libs/user-dispatch-client/src/index.ts"
       ]
     }
   },

@@ -9,6 +9,17 @@ export const isNewUserConnectedEvent = (
   event: Event
 ): event is NewUserConnectedEvent => event.type === newUserConnectedEventType;
 
+// user disconnects
+export const userDisconnectedEventType = '[User] user disconnected' as const;
+export const userDisconnectedEvent = (userId: string) => ({
+  type: userDisconnectedEventType,
+  userId,
+});
+export type UserDisconnectedEvent = ReturnType<typeof userDisconnectedEvent>;
+export const isUserDisconnectedEvent = (
+  event: Event
+): event is UserDisconnectedEvent => event.type === userDisconnectedEventType;
+
 // user adds a pizza
 export const userAddsPizzaEventType = '[User] pizza added' as const;
 export const userAddsPizzaEvent = ({
@@ -200,6 +211,7 @@ export const isAdminAdjustsDoughPriceEvent = (
 // export user events
 export type UserEvent =
   | NewUserConnectedEvent
+  | UserDisconnectedEvent
   | UserAddsPizzaEvent
   | UserRemovesPizzaEvent
   | UserAddsToppingEvent
@@ -216,6 +228,7 @@ export type AdminEvent =
 // export union of all events
 export type Event =
   | NewUserConnectedEvent
+  | UserDisconnectedEvent
   | UserAddsPizzaEvent
   | UserRemovesPizzaEvent
   | UserAddsToppingEvent

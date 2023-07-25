@@ -8,6 +8,7 @@ import {
   isNewUserConnectedEvent,
   isUserAddsPizzaEvent,
   isUserAddsToppingEvent,
+  isUserDisconnectedEvent,
   isUserRemovesPizzaEvent,
   isUserRemovesToppingEvent,
 } from '@event-sourced-pizza/events';
@@ -40,6 +41,13 @@ export const appReducer = (
         ...state.users,
         [userId]: {},
       },
+    };
+  } else if (isUserDisconnectedEvent(event)) {
+    const { userId } = event;
+    const { [userId]: _, ...rest } = state.users;
+    return {
+      ...state,
+      users: rest,
     };
   } else if (isUserAddsPizzaEvent(event)) {
     const { userId, pizzaId } = event;
@@ -160,4 +168,40 @@ export function selectRemainingDoughInventory(state: AppState) {
   for (const user of users) {
     inUseCount += Object.values(user).length;
   }
+  return state.dough.inventory - inUseCount;
 }
+
+export function selectRemainingToppingInventory(state: AppState) {
+  const remainingToppingInventory: { [toppingId: string]: number } = {};
+  for (const [toppingId, toppingData] of Object.entries(state.toppings)) {
+    remainingToppingInventory[toppingId] = toppingData.inventory;
+  }
+  for (const user of Object.values(state.users)) {
+    for (const pizza of Object.values(user)) {
+      for (const [toppingId, present] of Object.entries(pizza)) {
+        if (present) {
+          remainingToppingInventory[toppingId] -= 1;
+        }
+      }
+    }
+  }
+  return remainingToppingInventory;
+}
+
+export const selectUserPizzas = (userId: string) => (state: AppState) => {
+  return state.users[userId];
+};
+
+export const selectUserToppingData = (state: AppState) => {
+  const clientToppingData: {
+    [toppingId: string]: { name: string; id: string; price: number };
+  } = {};
+  for (const [toppingId, toppingData] of Object.entries(state.toppings)) {
+    clientToppingData[toppingId] = {
+      name: toppingData.name,
+      id: toppingId,
+      price: toppingData.price,
+    };
+  }
+  return clientToppingData;
+};

@@ -1,0 +1,26 @@
+{
+  "name": "user-dispatch-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user-dispatch-client/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/user-dispatch-client",
+        "main": "libs/user-dispatch-client/src/index.ts",
+        "tsConfig": "libs/user-dispatch-client/tsconfig.lib.json",
+        "assets": ["libs/user-dispatch-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/user-dispatch-client/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

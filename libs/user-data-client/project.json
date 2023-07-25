@@ -1,0 +1,26 @@
+{
+  "name": "user-data-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user-data-client/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/user-data-client",
+        "main": "libs/user-data-client/src/index.ts",
+        "tsConfig": "libs/user-data-client/tsconfig.lib.json",
+        "assets": ["libs/user-data-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/user-data-client/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

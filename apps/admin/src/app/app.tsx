@@ -4,16 +4,22 @@ import styles from './app.module.css';
 
 import NxWelcome from './nx-welcome';
 import {
+  adminAddsDoughInventoryEvent,
   adminAdjustsDoughPriceEvent,
   Event,
 } from '@event-sourced-pizza/events';
 import { createAdminDataClient } from '@event-sourced-pizza/admin-data-client';
 import { useEffect, useRef, useState } from 'react';
-import { AppState, selectDoughPrice } from '@event-sourced-pizza/app-state';
+import {
+  AppState,
+  selectDoughPrice,
+  selectRemainingDoughInventory,
+} from '@event-sourced-pizza/app-state';
 
 export function App() {
   return (
     <div>
+      <DoughInventory />
       <DoughPrice />
       <hr />
       <Ledger />
@@ -21,6 +27,49 @@ export function App() {
   );
 }
 const { getEvents, getState, getStates } = createAdminDataClient();
+
+function DoughInventory() {
+  const [serverTotal, setServerTotal] = useState<number>(0);
+  const [serverRemaining, setServerRemaining] = useState<number>(0);
+  const [formValue, setFormValue] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>();
+  useEffect(() => {
+    const sub = getState().subscribe((state) => {
+      setServerTotal(state.dough.inventory);
+      setServerRemaining(selectRemainingDoughInventory(state));
+    });
+    return () => sub.unsubscribe();
+  }, [inputRef]);
+  return (
+    <form
+      onSubmit={(event) => {
+        dispatch(
+          adminAddsDoughInventoryEvent({
+            count: +(event.target as any).addDough.value,
+          })
+        );
+        inputRef.current!.value = 0 as any;
+      }}
+    >
+      <label htmlFor="serverTotal">Total Dough Inventory: </label>
+      <span id="serverTotal">{serverTotal}</span>
+      <br />
+      <label htmlFor="serverRemaining">Remaining Dough: </label>
+      <span id="serverRemaining">{serverRemaining}</span>
+      <br />
+      <label htmlFor="addDough">Add Dough: </label>
+      <input
+        type="number"
+        id="addDough"
+        ref={inputRef}
+        onChange={(event) => {
+          setFormValue(+event.target.value);
+        }}
+      />
+      <button type="submit">Add Dough</button>
+    </form>
+  );
+}
 
 function DoughPrice() {
   const [serverDoughPrice, setServerDoughPrice] = useState<number | null>();
