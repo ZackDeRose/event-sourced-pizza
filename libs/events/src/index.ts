@@ -238,3 +238,5 @@ export type Event =
   | AdminAddsDoughInventoryEvent
   | AdminAdjustsToppingPriceEvent
   | AdminAdjustsDoughPriceEvent;
+
+  // foo
