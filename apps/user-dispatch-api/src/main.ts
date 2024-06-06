@@ -14,7 +14,7 @@ app.use(cors());
 app.post('/dispatch', (req, res) => {
   const event = req.body;
   dispatch(event).then((x) => {
-    console.log(x);
+    console.log('user message dispatched', x);
     res.send('ok');
   });
 });

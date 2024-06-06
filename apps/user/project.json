@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/user/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
@@ -54,18 +55,14 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/apps/user"],
+      "outputs": ["{workspaceRoot}/coverage/apps/user"],
       "options": {
         "passWithNoTests": true,
         "reportsDirectory": "../../coverage/apps/user"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/user/**/*.{ts,tsx,js,jsx}"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
@@ -73,6 +70,5 @@
         "buildTarget": "user:build"
       }
     }
-  },
-  "tags": []
+  }
 }

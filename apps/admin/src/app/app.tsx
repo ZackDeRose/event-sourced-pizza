@@ -53,7 +53,7 @@ function ToppingInventory({ toppingId }: { toppingId: string }) {
   const [serverRemaining, setServerRemaining] = useState<number>(0);
   const [toppingName, setToppingName] = useState<string>('');
   const [formValue, setFormValue] = useState<number>(0);
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const sub = getState().subscribe((state) => {
       setServerTotal(state.toppings[toppingId].inventory);
@@ -98,7 +98,7 @@ function ToppingInventory({ toppingId }: { toppingId: string }) {
 function ToppingPrice({ toppingId }: { toppingId: string }) {
   const [serverToppingPrice, setServerToppingPrice] = useState<number | null>();
   const [formToppingPrice, setFormToppingPrice] = useState<number | null>();
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [toppingName, setToppingName] = useState<string>('');
   useEffect(() => {
     const sub = getState().subscribe((state) => {
@@ -165,7 +165,7 @@ function DoughInventory() {
   const [serverTotal, setServerTotal] = useState<number>(0);
   const [serverRemaining, setServerRemaining] = useState<number>(0);
   const [formValue, setFormValue] = useState<number>(0);
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const sub = getState().subscribe((state) => {
       setServerTotal(state.dough.inventory);
@@ -208,7 +208,7 @@ function DoughInventory() {
 function DoughPrice() {
   const [serverDoughPrice, setServerDoughPrice] = useState<number | null>();
   const [formDoughPrice, setFormDoughPrice] = useState<number | null>();
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const sub = getState().subscribe((state) => {
       const tempDoughPrice = selectDoughPrice(state);
@@ -222,7 +222,7 @@ function DoughPrice() {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        const doughPrice = +event.target.doughPrice.value;
+        const doughPrice = +(event.target as any).doughPrice.value;
         dispatch(adminAdjustsDoughPriceEvent({ newPrice: doughPrice }));
       }}
     >

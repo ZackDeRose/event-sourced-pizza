@@ -51,6 +51,7 @@ socketServer.on('connection', (socket) => {
       })
     );
     userState$.subscribe((state) => {
+      console.log('sending state to user', state)
       socket.emit('state', state);
     });
   });
