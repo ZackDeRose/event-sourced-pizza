@@ -54,14 +54,6 @@
       },
       "dependsOn": ["build"]
     },
-    "test": {
-      "executor": "@nx/vite:test",
-      "outputs": ["{workspaceRoot}/coverage/apps/user"],
-      "options": {
-        "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/user"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
