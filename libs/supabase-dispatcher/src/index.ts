@@ -1,6 +1,5 @@
 import { Event } from '@event-sourced-pizza/events';
 import { createClient } from '@supabase/supabase-js';
-import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 
 const supabase = createClient(
   'http://localhost:54321',
