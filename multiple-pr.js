@@ -4,12 +4,12 @@ const { randomUUID } = require('crypto');
 const hash = randomUUID().slice(0, 7);
 const numberOfPrsToCreate = +process.argv[2] || 5;
 const projectDirectories = [
-  `app/admin/src`,
-  `app/admin-data-api/src`,
-  `app/admin-dispatch-api/src`,
-  `app/user/src`,
-  `app/user-data-api/src`,
-  `app/user-dispatch-api/src`,
+  `apps/admin/src`,
+  `apps/admin-data-api/src`,
+  `apps/admin-dispatch-api/src`,
+  `apps/user/src`,
+  `apps/user-data-api/src`,
+  `apps/user-dispatch-api/src`,
   `libs/admin-data-client/src`,
   `libs/admin-dispatch-client/src`,
   `libs/app-state/src`,
@@ -56,3 +56,5 @@ for (let i = 0; i < numberOfPrsToCreate; i++) {
     console.error(`unable to create pr #${i}`);
   }
 }
+
+execSync(`git checkout main`);
