@@ -37,3 +37,16 @@ jobs:
       - run: pnpm exec nx affected -t lint test build
       - run: sleep 120
       - run: pnpm exec nx affected --parallel 1 -t e2e-ci
+  impacted_targets:
+    name: Impacted Targets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: compute impacted targets
+        uses: trunk-io/nx-action@v1
+        with:
+          ### store your trunk api token to authenticate with merge service
+          workspace-path: .
+          trunk-token: ${{ secrets.TRUNK_API_TOKEN }}
