@@ -46,7 +46,7 @@ function push(i) {
 
 function openPr(i) {
   execSync(
-    `gh pr create --title "feat: add ${hash}-${i}.js" --body "This PR adds ${hash}-${i}.js" --base main --head pr-${hash}-${i}`
+    `gh pr create --title "feat: add ${hash}-${i}.js" --body "This PR adds ${hash}-${i}.js" --base main --head pr-${hash}-${i} --repo ZackDeRose/event-sourced-pizza`
   );
 }
 
