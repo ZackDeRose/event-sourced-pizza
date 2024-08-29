@@ -9,15 +9,8 @@
     "@nx/jest:jest": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true,
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
+      "options": { "passWithNoTests": true },
+      "configurations": { "ci": { "ci": true, "codeCoverage": true } }
     },
     "@nx/vite:test": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
@@ -52,14 +45,10 @@
         "bundler": "vite",
         "babel": true
       },
-      "component": {
-        "style": "css"
-      },
-      "library": {
-        "style": "css",
-        "linter": "eslint"
-      }
+      "component": { "style": "css" },
+      "library": { "style": "css", "linter": "eslint" }
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "nxCloudAccessToken": "MGE4MzZlNDUtMTgzNy00NmZiLWE0YjAtNWE1NzQ5MDFlZTc5fHJlYWQtd3JpdGU="
 }
