@@ -1,5 +1,6 @@
 const { execSync } = require('child_process');
 const { randomUUID } = require('crypto');
+const { writeFile, writeFileSync } = require('fs');
 
 const hash = randomUUID().slice(0, 7);
 const numberOfPrsToCreate = +process.argv[2] || 5;
@@ -29,10 +30,14 @@ function createBranch(i) {
 function addFile(i) {
   const randomIndex = Math.floor(Math.random() * projectDirectories.length);
   execSync(`touch ${projectDirectories[randomIndex]}/${hash}-${i}.js`);
+  writeFileSync(
+    `${projectDirectories[randomIndex]}/${hash}-${i}.js`,
+    `console.log('foo');`
+  );
 }
 
 function commit(i) {
-  execSync(`git add . && git commit -m "feat: add ${hash}-${i}.js"`);
+  execSync(`git add . && git commit -am "feat: add ${hash}-${i}.js"`);
 }
 
 function push(i) {
