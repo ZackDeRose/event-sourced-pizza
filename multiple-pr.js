@@ -49,9 +49,16 @@ function openPr(i) {
     `gh pr create --title "feat: add ${hash}-${i}.js" --body "This PR adds ${hash}-${i}.js" --base main --head pr-${hash}-${i} --repo ZackDeRose/event-sourced-pizza`
   );
 }
+function checkoutMain() {
+  const status = execSync(`git status`).toString();
+  if (status.includes('On branch main')) {
+    execSync(`git checkout main`);
+  }
+}
 
 for (let i = 0; i < numberOfPrsToCreate; i++) {
   try {
+    checkoutMain();
     createBranch(i);
     addFile(i);
     commit(i);
@@ -62,4 +69,4 @@ for (let i = 0; i < numberOfPrsToCreate; i++) {
   }
 }
 
-execSync(`git checkout main`);
+checkoutMain();
